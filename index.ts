@@ -62,4 +62,14 @@ export default class Logger {
 		global.console.warn = this.warn;
 		global.console.debug = this.debug;
 	}
+
+	static setReplacer(func: typeof Logger["replacer"]) {
+		this.replacer = func;
+		return this;
+	}
+
+	static setSaveToFile(func: typeof Logger["saveToFile"]) {
+		this.saveToFile = func;
+		return this;
+	}
 }
