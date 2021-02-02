@@ -2,8 +2,8 @@ import util from "util";
 import leeks from "leeks.js";
 import { Internal, Strings } from "@uwu-codes/utils";
 
-export default abstract class Logger {
-	protected static COLORS = {
+export default class Logger {
+	private static COLORS = {
 		time: leeks.colors.gray,
 		log: leeks.colors.green,
 		info: leeks.colors.green,
@@ -13,26 +13,26 @@ export default abstract class Logger {
 		command: leeks.colors.green
 	};
 
-	get log() {
+	static get log() {
 		return this._log.bind(this, "log");
 	}
-	get info() {
+	static get info() {
 		return this._log.bind(this, "info");
 	}
-	get error() {
+	static get error() {
 		return this._log.bind(this, "error");
 	}
-	get warn() {
+	static get warn() {
 		return this._log.bind(this, "warn");
 	}
-	get debug() {
+	static get debug() {
 		return this._log.bind(this, "debug");
 	}
-	get command() {
+	static get command() {
 		return this._log.bind(this, "command");
 	}
 
-	protected _log(type: keyof typeof Logger["COLORS"], name: string | string[], message?: any) {
+	private static _log(type: keyof typeof Logger["COLORS"], name: string | string[], message?: any) {
 		const d = new Date();
 		const time = d.toString().split(" ")[4];
 		if (!name) throw new TypeError("Missing logger name.");
@@ -49,10 +49,13 @@ export default abstract class Logger {
 		process.stdout.write(this.replacer(`[${Logger.COLORS.time(time)}] ${Logger.COLORS[type](Strings.ucwords(type))} | ${Array.isArray(name) ? name.map(n => Logger.COLORS[type](n)).join(" | ") : Logger.COLORS[type](name.toString())} | ${Logger.COLORS[type](message)}\n`));
 	}
 
-	protected abstract replacer(str: string): string;
-	protected abstract saveToFile(str: string): void;
+	static replacer(str: string) {
+		return str;
+	}
 
-	initOverrides() {
+	static saveToFile(str: string) { }
+
+	static initOverrides() {
 		global.console.log = this.log;
 		global.console.info = this.info;
 		global.console.error = this.error;
