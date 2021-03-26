@@ -1,8 +1,8 @@
 {
   "name": "@uwu-codes/logger",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A logger for my applications.",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
     "prepare": "rm -rf build && tsc && echo Build Finished",
     "build": "npm run prepare"
@@ -22,7 +22,9 @@
     "leeks.js": "^0.0.9"
   },
   "devDependencies": {
-    "@types/node": "^14.14.22"
+    "@types/node": "^14.14.22",
+    "@uwu-codes/eslint-config": "^1.0.7",
+    "@uwu-codes/tsconfig": "^1.0.1"
   },
   "private": false,
   "publishConfig": {

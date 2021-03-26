@@ -1,6 +1,6 @@
-import util from "util";
 import leeks from "leeks.js";
 import { Internal, Strings } from "@uwu-codes/utils";
+import util from "util";
 
 export default class Logger {
 	private static COLORS = {
@@ -32,7 +32,7 @@ export default class Logger {
 		return this._log.bind(this, "command");
 	}
 
-	private static _log(type: keyof typeof Logger["COLORS"], name: string | string[], message?: any) {
+	private static _log(type: keyof typeof Logger["COLORS"], name: string | Array<string>, message?: unknown) {
 		const d = new Date();
 		const time = d.toString().split(" ")[4];
 		if (!name) throw new TypeError("Missing logger name.");
@@ -41,19 +41,22 @@ export default class Logger {
 			name = "General";
 		}
 		if (typeof message !== "string") {
-			if (message instanceof Buffer || typeof message === "function") message = message.toString();
+			if (message instanceof Buffer || typeof message === "function") message = (message as Buffer).toString();
 			if (typeof message === "object") message = util.inspect(message, { depth: null, colors: true, showHidden: true });
 		}
 
-		this.saveToFile(Internal.consoleSanitize(this.replacer(`[${time}] ${Strings.ucwords(type)} | ${Array.isArray(name) ? name.join(" | ") : name.toString()} | ${message}\n`)));
-		process.stdout.write(this.replacer(`[${Logger.COLORS.time(time)}] ${Logger.COLORS[type](Strings.ucwords(type))} | ${Array.isArray(name) ? name.map(n => Logger.COLORS[type](n)).join(" | ") : Logger.COLORS[type](name.toString())} | ${Logger.COLORS[type](message)}\n`));
+		this.saveToFile(Internal.consoleSanitize(this.replacer(`[${time}] ${Strings.ucwords(type)} | ${Array.isArray(name) ? name.join(" | ") : name.toString()} | ${String(message)}\n`)));
+		process.stdout.write(this.replacer(`[${Logger.COLORS.time(time)}] ${Logger.COLORS[type](Strings.ucwords(type))} | ${Array.isArray(name) ? name.map(n => Logger.COLORS[type](n)).join(" | ") : Logger.COLORS[type](name.toString())} | ${Logger.COLORS[type](String(message))}\n`));
 	}
 
 	static replacer(str: string) {
 		return str;
 	}
 
-	static saveToFile(str: string) { }
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	static saveToFile(str: string) {
+		// end user replaces this
+	}
 
 	static initOverrides() {
 		global.console.log = this.log;
