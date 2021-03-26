@@ -3,6 +3,7 @@ import { Internal, Strings } from "@uwu-codes/utils";
 import util from "util";
 
 export default class Logger {
+	static DEPTH_LIMIT: number | null = 1;
 	private static COLORS = {
 		time: leeks.colors.gray,
 		log: leeks.colors.green,
@@ -44,7 +45,7 @@ export default class Logger {
 		function f(v: unknown) {
 			if (typeof v !== "string") {
 				if (Buffer.isBuffer(v) || typeof v === "function") v = v.toString();
-				else v = util.inspect(v, { depth: null, colors: true });
+				else v = util.inspect(v, { depth: Logger.DEPTH_LIMIT, colors: true });
 			}
 			return v;
 		}
@@ -80,5 +81,9 @@ export default class Logger {
 	static setSaveToFile(func: typeof Logger["saveToFile"]) {
 		this.saveToFile = func;
 		return this;
+	}
+
+	static setDepthLimit(limit: typeof Logger["DEPTH_LIMIT"]) {
+		this.DEPTH_LIMIT = limit;
 	}
 }
