@@ -32,21 +32,27 @@ export default class Logger {
 		return this._log.bind(this, "command");
 	}
 
-	private static _log(type: keyof typeof Logger["COLORS"], name: string | Array<string>, message?: unknown) {
+	private static _log(type: keyof typeof Logger["COLORS"], name: string | Array<string>, ...message: Array<unknown>) {
 		const d = new Date();
 		const time = d.toString().split(" ")[4];
 		if (!name) throw new TypeError("Missing logger name.");
-		if (!message) {
-			message = name;
+		if (!message || message.length === 0) {
+			message[0] = name;
 			name = "General";
 		}
-		if (typeof message !== "string") {
-			if (message instanceof Buffer || typeof message === "function") message = (message as Buffer).toString();
-			if (typeof message === "object") message = util.inspect(message, { depth: null, colors: true, showHidden: true });
+
+		function f(v: unknown) {
+			if (typeof v !== "string") {
+				if (Buffer.isBuffer(v) || typeof v === "function") v = v.toString();
+				else v = util.inspect(v, { depth: null, colors: true });
+			}
+			return v;
 		}
 
-		this.saveToFile(Internal.consoleSanitize(this.replacer(`[${time}] ${Strings.ucwords(type)} | ${Array.isArray(name) ? name.join(" | ") : name.toString()} | ${String(message)}\n`)));
-		process.stdout.write(this.replacer(`[${Logger.COLORS.time(time)}] ${Logger.COLORS[type](Strings.ucwords(type))} | ${Array.isArray(name) ? name.map(n => Logger.COLORS[type](n)).join(" | ") : Logger.COLORS[type](name.toString())} | ${Logger.COLORS[type](String(message))}\n`));
+		const v = message.map(f).join(" ");
+
+		this.saveToFile(Internal.consoleSanitize(this.replacer(`[${time}] ${Strings.ucwords(type)} | ${Array.isArray(name) ? name.join(" | ") : name.toString()} | ${v}\n`)));
+		process.stdout.write(this.replacer(`[${Logger.COLORS.time(time)}] ${Logger.COLORS[type](Strings.ucwords(type))} | ${Array.isArray(name) ? name.map(n => Logger.COLORS[type](n)).join(" | ") : Logger.COLORS[type](name.toString())} | ${Logger.COLORS[type](v)}\n`));
 	}
 
 	static replacer(str: string) {
