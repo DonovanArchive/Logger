@@ -1,6 +1,6 @@
 {
   "name": "@uwu-codes/logger",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A logger for my applications.",
   "main": "build/index.js",
   "scripts": {

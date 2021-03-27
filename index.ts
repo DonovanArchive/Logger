@@ -1,4 +1,4 @@
-import leeks from "leeks.js";
+import * as leeks from "leeks.js";
 import { Internal, Strings } from "@uwu-codes/utils";
 import util from "util";
 
