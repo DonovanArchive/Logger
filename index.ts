@@ -34,10 +34,13 @@ export default class Logger {
 	}
 
 	private static _log(type: keyof typeof Logger["COLORS"], name: string | Array<string>, ...message: Array<unknown>) {
+		// this lets us distinguish between blatantly provided undefined, and no arguments
+		// eslint-disable-next-line prefer-rest-params
+		if (name === undefined && Object.prototype.hasOwnProperty.call(arguments, "1")) name = "undefined";
 		const d = new Date();
 		const time = d.toString().split(" ")[4];
-		if (!name) throw new TypeError("Missing logger name.");
-		if (!message || message.length === 0) {
+		if (name === undefined) throw new TypeError("Missing logger name.");
+		if (message === undefined || message.length === 0) {
 			message[0] = name;
 			name = "General";
 		}
