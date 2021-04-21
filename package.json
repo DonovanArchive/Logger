@@ -1,6 +1,6 @@
 {
   "name": "@uwu-codes/logger",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "A logger for my applications.",
   "main": "build/index.js",
   "scripts": {
@@ -29,5 +29,13 @@
   "private": false,
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "engines": {
+    "node": ">=16.x",
+    "npm": ">=7.x"
+  },
+  "os": [
+    "linux"
+  ],
+  "engineStrict": true
 }
