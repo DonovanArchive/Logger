@@ -1,6 +1,6 @@
+import { consoleSanitize, ucwords } from "./LocalFunctions";
 import * as leeks from "leeks.js";
-import { Internal, Strings } from "@uwu-codes/utils";
-import util from "util";
+import util from "node:util";
 
 export default class Logger {
 	static DEPTH_LIMIT: number | null = 1;
@@ -55,8 +55,8 @@ export default class Logger {
 
 		const v = message.map(f).join(" ");
 
-		this.saveToFile(Internal.consoleSanitize(this.replacer(`[${time}] ${Strings.ucwords(type)} | ${Array.isArray(name) ? name.join(" | ") : name.toString()} | ${v}\n`)));
-		process.stdout.write(this.replacer(`[${Logger.COLORS.time(time)}] ${Logger.COLORS[type](Strings.ucwords(type))} | ${Array.isArray(name) ? name.map(n => Logger.COLORS[type](n)).join(" | ") : Logger.COLORS[type](name.toString())} | ${Logger.COLORS[type](v)}\n`));
+		this.saveToFile(consoleSanitize(this.replacer(`[${time}] ${ucwords(type)} | ${Array.isArray(name) ? name.join(" | ") : name.toString()} | ${v}\n`)));
+		process.stdout.write(this.replacer(`[${Logger.COLORS.time(time)}] ${Logger.COLORS[type](ucwords(type))} | ${Array.isArray(name) ? name.map(n => Logger.COLORS[type](n)).join(" | ") : Logger.COLORS[type](name.toString())} | ${Logger.COLORS[type](v)}\n`));
 	}
 
 	static replacer(str: string) {

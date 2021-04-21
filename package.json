@@ -1,6 +1,6 @@
 {
   "name": "@uwu-codes/logger",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "A logger for my applications.",
   "main": "build/index.js",
   "scripts": {
@@ -18,12 +18,11 @@
   },
   "homepage": "https://github.com/UWUCode/Logger#readme",
   "dependencies": {
-    "@uwu-codes/utils": "^1.0.20",
-    "leeks.js": "^0.1.1"
+    "leeks.js": "^0.2.1"
   },
   "devDependencies": {
-    "@types/node": "^14.14.36",
-    "@uwu-codes/eslint-config": "^1.0.8",
+    "@types/node": "^14.14.41",
+    "@uwu-codes/eslint-config": "^1.0.12",
     "@uwu-codes/tsconfig": "^1.0.1"
   },
   "private": false,
