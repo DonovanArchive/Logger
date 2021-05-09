@@ -1,11 +1,11 @@
 {
   "name": "@uwu-codes/logger",
-  "version": "1.0.15",
+  "version": "1.0.17",
   "description": "A logger for my applications.",
   "main": "build/index.js",
   "scripts": {
-    "prepare": "rm -rf build && tsc && echo Build Finished",
-    "build": "npm run prepare"
+    "prepublishOnly": "rm -rf build && tsc && echo Build Finished",
+    "build": "npm run prepublishOnly"
   },
   "author": "Donovan_DMC",
   "license": "MIT",

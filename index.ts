@@ -1,6 +1,6 @@
 import { consoleSanitize, ucwords } from "./LocalFunctions";
 import * as leeks from "leeks.js";
-import util from "node:util";
+import util from "util";
 
 export default class Logger {
 	static DEPTH_LIMIT: number | null = 1;
