@@ -49,14 +49,14 @@ export default class Logger {
 			if (typeof v !== "string") {
 				if (Buffer.isBuffer(v) || typeof v === "function") v = v.toString();
 				else v = util.inspect(v, { depth: Logger.DEPTH_LIMIT, colors: true });
-			}
-			return v;
+				return v;
+			} return Logger.COLORS[type](v);
 		}
 
 		const v = message.map(f).join(" ");
 
 		this.saveToFile(consoleSanitize(this.replacer(`[${time}] ${ucwords(type)} | ${Array.isArray(name) ? name.join(" | ") : name.toString()} | ${v}\n`)));
-		process.stdout.write(this.replacer(`[${Logger.COLORS.time(time)}] ${Logger.COLORS[type](ucwords(type))} | ${Array.isArray(name) ? name.map(n => Logger.COLORS[type](n)).join(" | ") : Logger.COLORS[type](name.toString())} | ${Logger.COLORS[type](v)}\n`));
+		process.stdout.write(this.replacer(`[${Logger.COLORS.time(time)}] ${Logger.COLORS[type](ucwords(type))} | ${Array.isArray(name) ? name.join(" | ") : Logger.COLORS[type](name.toString())} | ${Logger.COLORS[type](v)}\n`));
 	}
 
 	static replacer(str: string) {
