@@ -4,6 +4,7 @@ import util from "util";
 
 export default class Logger {
 	static DEPTH_LIMIT: number | null = 1;
+	static ADD_TO_ALL_LOGS = [] as Array<string>;
 	private static COLORS = {
 		time: leeks.colors.gray,
 		log: leeks.colors.green,
@@ -83,6 +84,11 @@ export default class Logger {
 
 	static setSaveToFile(func: typeof Logger["saveToFile"]) {
 		this.saveToFile = func;
+		return this;
+	}
+
+	static setAddToAllLogs(val: typeof Logger["ADD_TO_ALL_LOGS"]) {
+		this.ADD_TO_ALL_LOGS = val;
 		return this;
 	}
 
