@@ -46,6 +46,11 @@ export default class Logger {
 			name = "General";
 		}
 
+		if (this.ADD_TO_ALL_LOGS) {
+			if (!Array.isArray(name)) name = [name];
+			name.unshift(...this.ADD_TO_ALL_LOGS);
+		}
+
 		function f(v: unknown) {
 			if (typeof v !== "string") {
 				if (Buffer.isBuffer(v) || typeof v === "function") v = v.toString();
@@ -57,7 +62,7 @@ export default class Logger {
 		const v = message.map(f).join(" ");
 
 		this.saveToFile(consoleSanitize(this.replacer(`[${time}] ${ucwords(type)} | ${Array.isArray(name) ? name.join(" | ") : name.toString()} | ${v}\n`)));
-		process.stdout.write(this.replacer(`[${Logger.COLORS.time(time)}] ${Logger.COLORS[type](ucwords(type))} | ${Array.isArray(name) ? name.join(" | ") : Logger.COLORS[type](name.toString())} | ${Logger.COLORS[type](v)}\n`));
+		process.stdout.write(this.replacer(`[${Logger.COLORS.time(time)}] ${Logger.COLORS[type](ucwords(type))} | ${Logger.COLORS[type](Array.isArray(name) ? name.join(" | ") : name.toString())} | ${Logger.COLORS[type](v)}\n`));
 	}
 
 	static replacer(str: string) {
